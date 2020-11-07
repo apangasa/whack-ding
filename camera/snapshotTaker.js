@@ -13,9 +13,24 @@ function wait(ms){
   document.querySelector('.imageLoad').href = picture;*/
 }
 
+function saveBase64AsFile(base64, fileName) {
+    var link = document.createElement("a");
+
+    document.body.appendChild(link); // for Firefox
+
+    link.setAttribute("href", base64);
+    link.setAttribute("download", fileName);
+    link.click();
+}
+
+
 function startPics() {
   let picture = webcam.snap();
+  let base64string = picture.split(',')[1];
+  console.log(base64string);
   document.querySelector('.imageLoad').href = picture;
+  saveBase64AsFile(picture, 'pic.PNG')
+  detectLabels('./pic.PNG');
 };
 
 const webcamElement = document.getElementById('webcam');
