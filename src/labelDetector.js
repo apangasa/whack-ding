@@ -1,30 +1,16 @@
 
-async function detectLabels(path) {
+async function detectLabels(encoded) {
     const vision = require('@google-cloud/vision');
-    var fs = require('fs');
-    var imageFile = fs.readFileSync(path);
 
-    var encoded = Buffer.from(imageFile).toString('base64');
-    console.log(typeof encoded)
+    const request = {
+        image: {
+            content: encoded
+        }
+    };
 
-    let request_body_json = {
-        "requests":[
-            {
-              "image":{
-                "content":encoded
-              },
-              "features":[
-                {
-                  "type":"LABEL_DETECTION",
-                  "maxResults":1
-                }
-              ]
-            }
-          ]
-    }
 
     const client = new vision.ImageAnnotatorClient();
-    const [result] = await client.labelDetection(request_body_json);
+    const [result] = await client.labelDetection(request);
     const labels = result.labelAnnotations;
 
     let boiled = false;
@@ -38,4 +24,4 @@ async function detectLabels(path) {
     return boiled;
 }
 
-detectLabels('C:\\Users\\arnav\\OneDrive - University of Florida\\whack-ding\\resources\\water9.png');
+detectLabels(/*base 64 encoded image*/);
