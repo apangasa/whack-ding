@@ -340,6 +340,7 @@
       "resolved": "https://registry.npmjs.org/find-up/-/find-up-4.1.0.tgz",
       "version": "4.1.0"
     },
+    "firebase-functions": "^3.11.0",
     "follow-redirects": {
       "dependencies": {
         "debug": {
