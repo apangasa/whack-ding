@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 // // Create and Deploy Your First Cloud Functions
@@ -9,6 +10,27 @@ require('dotenv').config();
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+
+const mailTransport = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'mykitchending@gmail.com',
+    pass: 'Tongueofflame007',
+  },
+});
+
+async function sendEmail(message) {
+  const mailOptions = {
+    from: 'Ding',
+    to: '8138926373@vtext.com',
+  };
+
+  // The user unsubscribed to the newsletter.
+  mailOptions.subject = `Ding Alert!`;
+  mailOptions.text = message;
+  await mailTransport.sendMail(mailOptions);
+  return null;
+}
 
 async function detectLabels(encoded) {
     const vision = require('@google-cloud/vision');
@@ -28,13 +50,25 @@ async function detectLabels(encoded) {
     const labels = result.labelAnnotations;
 
     let boiled = false;
+    let fried = false;
     labels.forEach(label => {
         if(label.description.includes('Boiling')) {
             boiled = true;
         }
+        if(label.description.includes('Fried')) {
+            fried = true;
+        }
     });
     let str = boiled ? 'boiling' : 'not boiling';
-    console.log('Your water is ' + str)
+    console.log('Your water is ' + str + '!')
+
+    if(boiled) {
+        sendEmail('Your water is boiling!')
+    }
+
+    if(fried) {
+        sendEmail('Your egg is finished frying!')
+    }
     return boiled;
 }
 

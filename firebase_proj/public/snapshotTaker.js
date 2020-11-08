@@ -5,6 +5,15 @@ function wait(ms){
    while(end < start + ms) {
      end = new Date().getTime();
   }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    const canvas = document.getElementById("canvas")
+    const vid = document.getElementById("webcam");
+    const vidStyleData = vid.getBoundingClientRect();
+    canvas.style.width = vidStyleData.width + "px";
+    canvas.style.height = vidStyleData.height + "px";
+  });
+
   console.log("snapping");
   let picture = webcam.snap();
   document.querySelector('.imageLoad').href = picture;
@@ -40,6 +49,8 @@ function startPics() {
 const webcamElement = document.getElementById('webcam');
 const canvasElement = document.getElementById('canvas');
 const webcam = new Webcam(webcamElement, 'user', canvasElement);
+function startRecording() {
+webcam.flip();
 webcam.start()
   .then(result =>{
     console.log("webcam started");
@@ -52,3 +63,4 @@ webcam.start()
   .catch(err => {
     console.log(err);
 });
+}
