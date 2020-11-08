@@ -29,7 +29,7 @@ function startPics() {
   let base64string = picture.split(',')[1];
   console.log(base64string);
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost:5001/ding2-bf6b7/us-central1/helloWorld", true);
+  xhr.open("POST", "https://us-central1-ding2-bf6b7.cloudfunctions.net/helloWorld", true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(JSON.stringify({
     message: base64string
