@@ -28,9 +28,13 @@ function startPics() {
   let picture = webcam.snap();
   let base64string = picture.split(',')[1];
   console.log(base64string);
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost:5001/ding2-bf6b7/us-central1/helloWorld", true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.send(JSON.stringify({
+    message: base64string
+}));
   document.querySelector('.imageLoad').href = picture;
-  saveBase64AsFile(picture, 'pic.PNG')
-  detectLabels('./pic.PNG');
 };
 
 const webcamElement = document.getElementById('webcam');
